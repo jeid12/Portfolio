@@ -24,7 +24,7 @@ function Home2() {
               <br />
               <br />I am fluent in classics like
               <i>
-                <b className="purple"> C++, Javascript and Java. </b>
+                <b className="purple"> C++, Javascript , Java, dart & flutter,python. </b>
               </i>
               <br />
               <br />
@@ -39,7 +39,7 @@ function Home2() {
               <br />
               <br />
               Whenever possible, I also apply my passion for developing products
-              with <b className="purple">Node.js</b> and
+              with <b className="purple">Node.js</b>, <b className="purple">Django</b>, <b className="purple">Flutter</b>,<b className="purple">Spring Boot</b> and
               <i>
                 <b className="purple">
                   {" "}
