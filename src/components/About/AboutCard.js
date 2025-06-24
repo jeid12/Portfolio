@@ -18,6 +18,12 @@ function AboutCard() {
             I have also Finished software engineering spcifically in Backend development at ALX
             <br />
             <br />
+              I finished Eshuri Java full stack Traing and obtained certipot java certificate
+<br/>
+              <br/>
+              I did my 3 months Enternershipt At Rwanda TVET Board(RTB)
+<br/>
+              <br/>
             Apart from coding, some other activities that I love to do!
           </p>
           <ul>
@@ -35,6 +41,9 @@ function AboutCard() {
             </li>
             <li className="about-activity">
               <ImPointRight /> Reading physics lows
+            </li>
+              <li className="about-activity">
+              <ImPointRight /> solving competitive programing problems
             </li>
           </ul>
 
