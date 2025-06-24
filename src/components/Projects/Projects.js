@@ -6,6 +6,7 @@ import leaf from "../../Assets/Projects/leaf.png";
 import emotion from "../../Assets/Projects/emotion.png";
 
 import chatify from "../../Assets/Projects/chatify.png";
+import baza from "../../Assets/Projects/baza.png";
 
 
 
@@ -45,6 +46,16 @@ function Projects() {
               description="This project is a website where I developmed its we site  and build it  with react and fake serves json and i provide update"
              
               demoLink="https://mood.livetoserves.com"
+            />
+          </Col>
+                 <Col md={4} className="project-card">
+            <ProjectCard
+              imgPath={baza}
+              isBlog={false}
+              title="Rwandan Citzen Engagement System"
+              description="this the  system which will allow Rwandan citzen to ask the question and get some response from Rwandan government officials and it will be done in transparent form and relevant way"
+             
+              demoLink="https://bazarw.netlify.app/"
             />
           </Col>
 
