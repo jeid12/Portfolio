@@ -54,7 +54,7 @@ function Projects() {
               isBlog={false}
               title="Rwandan Citzen Engagement System"
               description="this the  system which will allow Rwandan citzen to ask the question and get some response from Rwandan government officials and it will be done in transparent form and relevant way"
-             
+              ghLink="https://github.com/jeid12/Citizen-Engagement-System"
               demoLink="https://bazarw.netlify.app/"
             />
           </Col>
