@@ -10,7 +10,7 @@ import {
   DiGit,
   DiJava,
   DiPhp,
-  DiFlutter,
+  
   DiDjango,
 } from "react-icons/di";
 import {
@@ -20,6 +20,7 @@ import {
   SiMysql,
   SiPostgresql,
   SiC,
+  SiFlutter
 } from "react-icons/si";
 import { TbBrandGolang } from "react-icons/tb";
 
@@ -75,7 +76,7 @@ function Techstack() {
         <DiJava title="Java / Spring Boot" />
       </Col>
       <Col xs={4} md={2} className="tech-icons">
-        <DiFlutter title="Flutter" />
+        <SiFlutter title="Flutter" />
       </Col>
       <Col xs={4} md={2} className="tech-icons">
         <DiDjango title="Django" />
