@@ -13,7 +13,7 @@ function AboutCard() {
             <br />
             I am currently student at University Of Rwanda (CST).
             <br />
-            I am studying Computer and software Engineering in year 3.
+            I am studying Computer and software Engineering in final year.
             <br />
             I have also Finished software engineering spcifically in Backend development at ALX
             <br />
@@ -22,9 +22,17 @@ function AboutCard() {
 <br/>
               <br/>
               I did my 3 months Enternershipt At Rwanda TVET Board(RTB)
+
+              
 <br/>
               <br/>
+              I am  Rwanda informatic Olympiad coach. Strongly thinking and problema solving
+              <br/>
+              
+              
             Apart from coding, some other activities that I love to do!
+              
+              
           </p>
           <ul>
             <li className="about-activity">
