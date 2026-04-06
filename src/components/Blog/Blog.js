@@ -1,15 +1,14 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Container, Row, Col, Card, Badge, Form, Button } from "react-bootstrap";
 import { BsArrowUpRight, BsHeart, BsHeartFill, BsPencilSquare, BsTrash } from "react-icons/bs";
 import Particle from "../Particle";
 import {
+  BLOG_SYNC_EVENT,
   createPost,
   deletePost,
   getLikedPostIds,
   getSession,
   loadDb,
-  login,
-  logout,
   toggleLikePost,
   updatePost,
 } from "./blogStorage";
@@ -34,13 +33,25 @@ function Blog() {
   const [session, setSession] = useState(() => getSession());
   const [likedPostIds, setLikedPostIds] = useState(() => getLikedPostIds());
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [authError, setAuthError] = useState("");
-
   const [editingPostId, setEditingPostId] = useState(null);
   const [postForm, setPostForm] = useState(emptyPostForm);
   const [formError, setFormError] = useState("");
+
+  useEffect(() => {
+    function syncState() {
+      setSession(getSession());
+      setDb(loadDb());
+      setLikedPostIds(getLikedPostIds());
+    }
+
+    window.addEventListener("storage", syncState);
+    window.addEventListener(BLOG_SYNC_EVENT, syncState);
+
+    return () => {
+      window.removeEventListener("storage", syncState);
+      window.removeEventListener(BLOG_SYNC_EVENT, syncState);
+    };
+  }, []);
 
   const posts = useMemo(
     () =>
@@ -50,29 +61,6 @@ function Blog() {
       ),
     [db.posts]
   );
-
-  function handleLogin(event) {
-    event.preventDefault();
-    const nextSession = login(email.trim(), password);
-
-    if (!nextSession.isOwner) {
-      setAuthError("Invalid owner credentials.");
-      return;
-    }
-
-    setAuthError("");
-    setSession(nextSession);
-    setEmail("");
-    setPassword("");
-  }
-
-  function handleLogout() {
-    logout();
-    setSession({ isOwner: false, email: null });
-    setEditingPostId(null);
-    setPostForm(emptyPostForm);
-    setFormError("");
-  }
 
   function handleFieldChange(field, value) {
     setPostForm((prev) => ({
@@ -158,56 +146,8 @@ function Blog() {
           Blog & <strong className="purple">Updates</strong>
         </h1>
         <p style={{ color: "white" }}>
-          Owner can create, edit, and delete posts after login. Everyone can read and like posts.
+          Everyone can see and like posts. Owner login is available from the navbar to create, edit, and delete.
         </p>
-
-        <Card className="blog-auth-card">
-          <Card.Body>
-            <div className="blog-auth-header">
-              <h5 style={{ marginBottom: 0 }}>Blog Access</h5>
-              {session.isOwner ? (
-                <Button variant="outline-light" size="sm" onClick={handleLogout}>
-                  Logout ({session.email})
-                </Button>
-              ) : null}
-            </div>
-
-            {session.isOwner ? (
-              <p style={{ marginTop: 12, marginBottom: 0 }}>
-                Owner mode active. You can now create, edit, and delete blog posts.
-              </p>
-            ) : (
-              <Form className="blog-login-form" onSubmit={handleLogin}>
-                <Form.Group controlId="blogOwnerEmail">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control
-                    type="email"
-                    placeholder="Owner email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="blogOwnerPassword">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Owner password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                </Form.Group>
-
-                <Button type="submit" variant="primary">
-                  Login as Owner
-                </Button>
-                {authError ? <p className="blog-form-error">{authError}</p> : null}
-              </Form>
-            )}
-          </Card.Body>
-        </Card>
 
         {session.isOwner ? (
           <Card className="blog-editor-card">
@@ -321,9 +261,7 @@ function Blog() {
                         </Button>
                       </>
                     ) : (
-                      <a className="blog-link" href="#top">
-                        Read only <BsArrowUpRight />
-                      </a>
+                      <span className="blog-link">Read only <BsArrowUpRight /></span>
                     )}
                   </div>
                 </Card.Body>

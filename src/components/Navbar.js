@@ -4,8 +4,16 @@ import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import logo from "../Assets/jd.jpg";
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 import { CgGitFork } from "react-icons/cg";
+import {
+  BLOG_SYNC_EVENT,
+  getSession,
+  login,
+  logout,
+} from "./Blog/blogStorage";
 
 import {
   AiFillStar,
@@ -20,6 +28,11 @@ import { CgFileDocument } from "react-icons/cg";
 function NavBar() {
   const [expand, updateExpanded] = useState(false);
   const [navColour, updateNavbar] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [session, setSession] = useState(() => getSession());
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [authError, setAuthError] = useState("");
 
   useEffect(() => {
     function scrollHandler() {
@@ -32,10 +45,43 @@ function NavBar() {
 
     window.addEventListener("scroll", scrollHandler);
 
+    function syncSession() {
+      setSession(getSession());
+    }
+
+    window.addEventListener("storage", syncSession);
+    window.addEventListener(BLOG_SYNC_EVENT, syncSession);
+
     return () => {
       window.removeEventListener("scroll", scrollHandler);
+      window.removeEventListener("storage", syncSession);
+      window.removeEventListener(BLOG_SYNC_EVENT, syncSession);
     };
   }, []);
+
+  function handleOwnerLogin(event) {
+    event.preventDefault();
+    const nextSession = login(email.trim(), password);
+
+    if (!nextSession.isOwner) {
+      setAuthError("Invalid owner credentials.");
+      return;
+    }
+
+    setSession(nextSession);
+    setAuthError("");
+    setEmail("");
+    setPassword("");
+    setShowLoginModal(false);
+  }
+
+  function handleOwnerLogout() {
+    logout();
+    setSession({ isOwner: false, email: null });
+    setAuthError("");
+    setEmail("");
+    setPassword("");
+  }
 
   return (
     <Navbar
@@ -108,6 +154,31 @@ function NavBar() {
                 <CgFileDocument style={{ marginBottom: "2px" }} /> Resume
               </Nav.Link>
             </Nav.Item>
+
+            <Nav.Item>
+              {session.isOwner ? (
+                <Button
+                  variant="outline-light"
+                  size="sm"
+                  className="owner-auth-btn"
+                  onClick={handleOwnerLogout}
+                >
+                  Logout Owner
+                </Button>
+              ) : (
+                <Button
+                  variant="outline-light"
+                  size="sm"
+                  className="owner-auth-btn"
+                  onClick={() => {
+                    setShowLoginModal(true);
+                    updateExpanded(false);
+                  }}
+                >
+                  Owner Login
+                </Button>
+              )}
+            </Nav.Item>
             
 
             <Nav.Item className="fork-btn">
@@ -123,6 +194,43 @@ function NavBar() {
           </Nav>
         </Navbar.Collapse>
       </Container>
+
+      <Modal show={showLoginModal} onHide={() => setShowLoginModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Owner Login</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleOwnerLogin}>
+            <Form.Group className="mb-3" controlId="ownerLoginEmail">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Owner email"
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="ownerLoginPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Owner password"
+                required
+              />
+            </Form.Group>
+
+            {authError ? <p className="blog-form-error">{authError}</p> : null}
+
+            <Button type="submit" variant="primary">
+              Login
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </Navbar>
   );
 }

@@ -162,6 +162,11 @@ button:focus {
   border: 2px solid rgba(255, 255, 255, 0.75);
 }
 
+.owner-auth-btn {
+  margin-left: 18px;
+  margin-top: 8px;
+}
+
 .navbar-nav .nav-link {
   color: white !important;
   padding-right: 1rem !important;
@@ -506,6 +511,9 @@ button:focus {
 .blog-link {
   color: white !important;
   text-decoration: none !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .blog-link:hover {

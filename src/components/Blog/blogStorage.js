@@ -3,6 +3,7 @@ import seedData from "./fakeBlogDb.json";
 const BLOG_DB_KEY = "portfolio_blog_db_v1";
 const BLOG_SESSION_KEY = "portfolio_blog_session_v1";
 const BLOG_LIKES_KEY = "portfolio_blog_likes_v1";
+export const BLOG_SYNC_EVENT = "portfolio-blog-sync";
 
 const OWNER_EMAIL = "niyokwizerajd123@gmail.com";
 const OWNER_PASSWORD = "Jeid@2026";
@@ -38,6 +39,12 @@ function parseJson(json, fallback) {
   }
 }
 
+function emitSync() {
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event(BLOG_SYNC_EVENT));
+  }
+}
+
 export function loadDb() {
   const saved = localStorage.getItem(BLOG_DB_KEY);
   if (!saved) {
@@ -54,6 +61,7 @@ export function loadDb() {
 
 export function saveDb(db) {
   localStorage.setItem(BLOG_DB_KEY, JSON.stringify(normalizeDb(db)));
+  emitSync();
 }
 
 export function getSession() {
@@ -75,11 +83,13 @@ export function login(email, password) {
     isOwner,
   };
   localStorage.setItem(BLOG_SESSION_KEY, JSON.stringify(session));
+  emitSync();
   return session;
 }
 
 export function logout() {
   localStorage.removeItem(BLOG_SESSION_KEY);
+  emitSync();
 }
 
 export function getLikedPostIds() {
@@ -90,6 +100,7 @@ export function getLikedPostIds() {
 
 function saveLikedPostIds(ids) {
   localStorage.setItem(BLOG_LIKES_KEY, JSON.stringify(ids));
+  emitSync();
 }
 
 export function toggleLikePost(postId) {
