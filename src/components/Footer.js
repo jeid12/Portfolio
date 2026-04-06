@@ -16,10 +16,10 @@ function Footer() {
     <Container fluid className="footer">
       <Row>
         <Col md="4" className="footer-copywright">
-          <h3>Designed and Developed by NIYOKWIZERA JEAN D AMOUR</h3>
+          <h3>NIYOKWIZERA JEAN D AMOUR</h3>
         </Col>
         <Col md="4" className="footer-copywright">
-          <h3>Copyright © {year} Bro Jeid</h3>
+          <h3>© {year} NIYOKWIZERA JEAN D AMOUR</h3>
         </Col>
         <Col md="4" className="footer-body">
           <ul className="footer-icons">
