@@ -28,6 +28,20 @@ function AboutCard() {
             I am also deeply interested in <span className="purple">mathematics and mathematically driven computational science</span>.
             <br />
             <br />
+            I have participated in multiple innovation events and hackathons including
+            <span className="purple"> CodeXtreme Hackathon, Build with AI, Build with Gemini, and Kigali Hack</span>.
+            <br />
+            I have also attended intensive bootcamps such as
+            <span className="purple"> ALX Software Engineering</span>,
+            <span className="purple"> Eshuri Java backend training</span>, and
+            <span className="purple"> Solvit Africa Django bootcamp</span>.
+            <br />
+            <br />
+            I actively contribute to open source, with
+            <span className="purple"> 5+ contributions</span> including contributions to projects like
+            <span className="purple"> Chatwoot</span>.
+            <br />
+            <br />
             Apart from coding, here are a few things I also enjoy:
           </p>
           <ul>

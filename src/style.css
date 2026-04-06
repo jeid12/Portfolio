@@ -887,6 +887,24 @@ button:focus {
   box-shadow: 0 15px 30px rgba(80, 20, 130, 0.3);
 }
 
+.resume-highlight-card {
+  border: 1px solid rgba(206, 176, 255, 0.28) !important;
+  background: linear-gradient(
+    165deg,
+    rgba(49, 31, 90, 0.76),
+    rgba(17, 17, 46, 0.68)
+  ) !important;
+  color: #ffffff !important;
+  box-shadow: 0 14px 22px rgba(84, 30, 142, 0.26);
+  transform-style: preserve-3d;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.resume-highlight-card:hover {
+  transform: translateY(-6px) rotateX(4deg) rotateY(-4deg);
+  box-shadow: 0 20px 32px rgba(106, 42, 175, 0.34);
+}
+
 .resume-focus-list {
   margin: 0 0 10px;
   padding-left: 18px;

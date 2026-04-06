@@ -70,6 +70,43 @@ function ResumeNew() {
           </Col>
         </Row>
 
+        <Row style={{ justifyContent: "center", marginBottom: "24px" }}>
+          <Col md={5} className="mb-3">
+            <Card className="resume-highlight-card">
+              <Card.Body>
+                <h5 className="purple">Hackathons & Innovation Events</h5>
+                <ul className="resume-focus-list">
+                  <li>CodeXtreme Hackathon participant</li>
+                  <li>Build with AI participant</li>
+                  <li>Build with Gemini participant</li>
+                  <li>Kigali Hack participant</li>
+                </ul>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={5} className="mb-3">
+            <Card className="resume-highlight-card">
+              <Card.Body>
+                <h5 className="purple">Bootcamps & Open Source</h5>
+                <ul className="resume-focus-list">
+                  <li>ALX Software Engineering (backend focused)</li>
+                  <li>Eshuri Java backend training</li>
+                  <li>Solvit Africa Django bootcamp</li>
+                  <li>5+ open-source contributions, including Chatwoot</li>
+                </ul>
+                <a
+                  className="blog-link"
+                  href="https://github.com/chatwoot/chatwoot"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View Chatwoot project
+                </a>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+
         <Row style={{ justifyContent: "center", position: "relative" }}>
           <Button
             variant="primary"
