@@ -45,6 +45,22 @@ function About() {
         </h1>
         <Toolstack />
 
+        <h1 className="project-heading">
+          Extended <strong className="purple">Stack & Domains</strong>
+        </h1>
+        <div className="stack-badges">
+          <span className="stack-badge">Artificial Intelligence</span>
+          <span className="stack-badge">Machine Learning</span>
+          <span className="stack-badge">Data Structures & Algorithms</span>
+          <span className="stack-badge">Game Development</span>
+          <span className="stack-badge">Computational Mathematics</span>
+          <span className="stack-badge">Business Problem Solving</span>
+          <span className="stack-badge">System Design</span>
+          <span className="stack-badge">API Design</span>
+          <span className="stack-badge">Cloud Deployment</span>
+          <span className="stack-badge">IoT & Embedded Concepts</span>
+        </div>
+
         <Github />
       </Container>
     </Container>

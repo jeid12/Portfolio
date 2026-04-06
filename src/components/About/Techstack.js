@@ -20,7 +20,15 @@ import {
   SiMysql,
   SiPostgresql,
   SiC,
-  SiFlutter
+  SiFlutter,
+  SiTensorflow,
+  SiNodedotjs,
+  SiExpress,
+  SiSpringboot,
+  SiUnity,
+  SiScikitlearn,
+  SiKeras,
+  SiTypescript
 } from "react-icons/si";
 import { TbBrandGolang } from "react-icons/tb";
 
@@ -80,6 +88,30 @@ function Techstack() {
       </Col>
       <Col xs={4} md={2} className="tech-icons">
         <DiDjango title="Django" />
+      </Col>
+      <Col xs={4} md={2} className="tech-icons">
+        <SiTypescript title="TypeScript" />
+      </Col>
+      <Col xs={4} md={2} className="tech-icons">
+        <SiExpress title="Express.js" />
+      </Col>
+      <Col xs={4} md={2} className="tech-icons">
+        <SiNodedotjs title="Node Ecosystem" />
+      </Col>
+      <Col xs={4} md={2} className="tech-icons">
+        <SiSpringboot title="Spring Boot" />
+      </Col>
+      <Col xs={4} md={2} className="tech-icons">
+        <SiTensorflow title="TensorFlow" />
+      </Col>
+      <Col xs={4} md={2} className="tech-icons">
+        <SiScikitlearn title="Scikit-learn" />
+      </Col>
+      <Col xs={4} md={2} className="tech-icons">
+        <SiKeras title="Keras" />
+      </Col>
+      <Col xs={4} md={2} className="tech-icons">
+        <SiUnity title="Unity" />
       </Col>
     </Row>
   );

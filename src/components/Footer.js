@@ -6,6 +6,8 @@ import {
   
 } from "react-icons/ai";
 import { FaLinkedinIn } from "react-icons/fa";
+import { CgFileDocument } from "react-icons/cg";
+import pdf from "../Assets/NIYOKWIZERA.pdf";
 
 function Footer() {
   let date = new Date();
@@ -49,6 +51,16 @@ function Footer() {
                 rel="noopener noreferrer"
               >
                 <FaLinkedinIn />
+              </a>
+            </li>
+            <li className="social-icons">
+              <a
+                href={pdf}
+                style={{ color: "white" }}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <CgFileDocument />
               </a>
             </li>
           </ul>
