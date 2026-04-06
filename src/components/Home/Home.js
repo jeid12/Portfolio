@@ -25,18 +25,24 @@ function Home() {
                 <strong className="main-name"> NIYOKWIZERA JEAN D AMOUR</strong>
               </h1>
 
+              <div className="hero-ribbon">Building useful software, AI products, and delightful web experiences.</div>
+
               <div style={{ padding: 50, textAlign: "left" }}>
                 <Type />
               </div>
             </Col>
 
             <Col md={5} style={{ paddingBottom: 20 }}>
-              <img
-                src={homeLogo}
-                alt="home pic"
-                className="img-fluid"
-                style={{ maxHeight: "450px" }}
-              />
+              <div className="hero-visual-wrap">
+                <span className="hero-orb hero-orb-1"></span>
+                <span className="hero-orb hero-orb-2"></span>
+                <img
+                  src={homeLogo}
+                  alt="home pic"
+                  className="img-fluid hero-main-image"
+                  style={{ maxHeight: "450px" }}
+                />
+              </div>
             </Col>
           </Row>
         </Container>
