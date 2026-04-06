@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import homeLogo from "../../Assets/home-main.svg";
+import homeLogo from "../../Assets/jd.jpg";
 import Particle from "../Particle";
 import Home2 from "./Home2";
 import Type from "./Type";
@@ -38,7 +38,7 @@ function Home() {
                 <span className="hero-orb hero-orb-2"></span>
                 <img
                   src={homeLogo}
-                  alt="home pic"
+                  alt="NIYOKWIZERA profile"
                   className="img-fluid hero-main-image"
                   style={{ maxHeight: "450px" }}
                 />

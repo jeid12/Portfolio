@@ -1,0 +1,34 @@
+{
+  "posts": [
+    {
+      "id": "blog-1",
+      "title": "Designing Reliable Digital Products for Rwanda",
+      "excerpt": "Lessons from building practical systems for schools, communities, and public services.",
+      "content": "Building software for real communities requires reliability, simplicity, and long-term maintainability. I focus on accessible interfaces, resilient backend design, and deployment practices that work in constrained environments.",
+      "tag": "Engineering",
+      "likes": 0,
+      "createdAt": "2026-01-10T09:00:00.000Z",
+      "updatedAt": "2026-01-10T09:00:00.000Z"
+    },
+    {
+      "id": "blog-2",
+      "title": "What I Learned from Building AI + Web Integrations",
+      "excerpt": "How I combine ML models and product UX to deliver features people can actually use.",
+      "content": "The best AI features are not just about model accuracy. They need clear user flows, feedback loops, and safe fallbacks. I design AI-powered tools with human-centered interactions first.",
+      "tag": "AI",
+      "likes": 0,
+      "createdAt": "2026-02-18T11:30:00.000Z",
+      "updatedAt": "2026-02-18T11:30:00.000Z"
+    },
+    {
+      "id": "blog-3",
+      "title": "From Prototype to Production: My Build Workflow",
+      "excerpt": "The architecture and release checklist I use to ship better software with confidence.",
+      "content": "My workflow emphasizes rapid prototyping, early user validation, and structured hardening before release. CI checks, clear environment setup, and incremental rollouts keep quality high while moving fast.",
+      "tag": "Workflow",
+      "likes": 0,
+      "createdAt": "2026-03-05T14:15:00.000Z",
+      "updatedAt": "2026-03-05T14:15:00.000Z"
+    }
+  ]
+}

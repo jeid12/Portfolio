@@ -1,83 +1,154 @@
-import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Badge } from "react-bootstrap";
-import { BsArrowUpRight } from "react-icons/bs";
+import React, { useMemo, useState } from "react";
+import { Container, Row, Col, Card, Badge, Form, Button } from "react-bootstrap";
+import { BsArrowUpRight, BsHeart, BsHeartFill, BsPencilSquare, BsTrash } from "react-icons/bs";
 import Particle from "../Particle";
+import {
+  createPost,
+  deletePost,
+  getLikedPostIds,
+  getSession,
+  loadDb,
+  login,
+  logout,
+  toggleLikePost,
+  updatePost,
+} from "./blogStorage";
 
-const staticPosts = [
-  {
-    id: "post-1",
-    title: "Designing Reliable Digital Products for Rwanda",
-    excerpt:
-      "Lessons from building practical systems for schools, communities, and public services.",
-    link: "https://github.com/jeid12",
-    tag: "Engineering",
-  },
-  {
-    id: "post-2",
-    title: "What I Learned from Building AI + Web Integrations",
-    excerpt:
-      "How I combine ML models and product UX to deliver features people can actually use.",
-    link: "https://github.com/jeid12",
-    tag: "AI",
-  },
-  {
-    id: "post-3",
-    title: "From Prototype to Production: My Build Workflow",
-    excerpt:
-      "The architecture and release checklist I use to ship better software with confidence.",
-    link: "https://github.com/jeid12",
-    tag: "Workflow",
-  },
-];
+const emptyPostForm = {
+  title: "",
+  excerpt: "",
+  content: "",
+  tag: "",
+};
+
+function formatDate(isoDate) {
+  return new Date(isoDate).toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
 
 function Blog() {
-  const [repoUpdates, setRepoUpdates] = useState([]);
+  const [db, setDb] = useState(() => loadDb());
+  const [session, setSession] = useState(() => getSession());
+  const [likedPostIds, setLikedPostIds] = useState(() => getLikedPostIds());
 
-  useEffect(() => {
-    let ignore = false;
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [authError, setAuthError] = useState("");
 
-    async function loadUpdates() {
-      try {
-        const response = await fetch(
-          "https://api.github.com/users/jeid12/repos?per_page=100&sort=updated"
-        );
-        const repos = await response.json();
+  const [editingPostId, setEditingPostId] = useState(null);
+  const [postForm, setPostForm] = useState(emptyPostForm);
+  const [formError, setFormError] = useState("");
 
-        if (!Array.isArray(repos) || ignore) {
-          return;
-        }
+  const posts = useMemo(
+    () =>
+      [...db.posts].sort(
+        (a, b) =>
+          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+      ),
+    [db.posts]
+  );
 
-        const updates = repos
-          .filter((repo) => !repo.fork)
-          .sort(
-            (a, b) =>
-              new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime()
-          )
-          .slice(0, 6)
-          .map((repo) => ({
-            id: repo.id,
-            title: `Update: ${repo.name}`,
-            excerpt:
-              repo.description ||
-              "Fresh commits and improvements shipped recently in this repository.",
-            link: repo.html_url,
-            tag: repo.language || "Code",
-          }));
+  function handleLogin(event) {
+    event.preventDefault();
+    const nextSession = login(email.trim(), password);
 
-        setRepoUpdates(updates);
-      } catch (error) {
-        setRepoUpdates([]);
-      }
+    if (!nextSession.isOwner) {
+      setAuthError("Invalid owner credentials.");
+      return;
     }
 
-    loadUpdates();
+    setAuthError("");
+    setSession(nextSession);
+    setEmail("");
+    setPassword("");
+  }
 
-    return () => {
-      ignore = true;
+  function handleLogout() {
+    logout();
+    setSession({ isOwner: false, email: null });
+    setEditingPostId(null);
+    setPostForm(emptyPostForm);
+    setFormError("");
+  }
+
+  function handleFieldChange(field, value) {
+    setPostForm((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  }
+
+  function startEdit(post) {
+    setEditingPostId(post.id);
+    setPostForm({
+      title: post.title,
+      excerpt: post.excerpt,
+      content: post.content,
+      tag: post.tag,
+    });
+    setFormError("");
+  }
+
+  function resetForm() {
+    setEditingPostId(null);
+    setPostForm(emptyPostForm);
+    setFormError("");
+  }
+
+  function validatePostForm() {
+    if (!postForm.title.trim()) {
+      return "Title is required.";
+    }
+    if (!postForm.excerpt.trim()) {
+      return "Excerpt is required.";
+    }
+    if (!postForm.content.trim()) {
+      return "Content is required.";
+    }
+    return "";
+  }
+
+  function handleSavePost(event) {
+    event.preventDefault();
+    const error = validatePostForm();
+    if (error) {
+      setFormError(error);
+      return;
+    }
+
+    const postInput = {
+      title: postForm.title.trim(),
+      excerpt: postForm.excerpt.trim(),
+      content: postForm.content.trim(),
+      tag: postForm.tag.trim() || "General",
     };
-  }, []);
 
-  const posts = [...staticPosts, ...repoUpdates];
+    if (editingPostId) {
+      setDb(updatePost(editingPostId, postInput));
+    } else {
+      setDb(createPost(postInput));
+    }
+
+    resetForm();
+  }
+
+  function handleDeletePost(postId) {
+    const next = deletePost(postId);
+    setDb(next.db);
+    setLikedPostIds(next.likedIds);
+    if (editingPostId === postId) {
+      resetForm();
+    }
+  }
+
+  function handleToggleLike(postId) {
+    const next = toggleLikePost(postId);
+    setDb(next.db);
+    setLikedPostIds(next.likedIds);
+  }
 
   return (
     <Container fluid className="project-section">
@@ -87,8 +158,124 @@ function Blog() {
           Blog & <strong className="purple">Updates</strong>
         </h1>
         <p style={{ color: "white" }}>
-          Thoughts on software, AI, and recent progress from my active GitHub work.
+          Owner can create, edit, and delete posts after login. Everyone can read and like posts.
         </p>
+
+        <Card className="blog-auth-card">
+          <Card.Body>
+            <div className="blog-auth-header">
+              <h5 style={{ marginBottom: 0 }}>Blog Access</h5>
+              {session.isOwner ? (
+                <Button variant="outline-light" size="sm" onClick={handleLogout}>
+                  Logout ({session.email})
+                </Button>
+              ) : null}
+            </div>
+
+            {session.isOwner ? (
+              <p style={{ marginTop: 12, marginBottom: 0 }}>
+                Owner mode active. You can now create, edit, and delete blog posts.
+              </p>
+            ) : (
+              <Form className="blog-login-form" onSubmit={handleLogin}>
+                <Form.Group controlId="blogOwnerEmail">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="Owner email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="blogOwnerPassword">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="Owner password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </Form.Group>
+
+                <Button type="submit" variant="primary">
+                  Login as Owner
+                </Button>
+                {authError ? <p className="blog-form-error">{authError}</p> : null}
+              </Form>
+            )}
+          </Card.Body>
+        </Card>
+
+        {session.isOwner ? (
+          <Card className="blog-editor-card">
+            <Card.Body>
+              <h5>{editingPostId ? "Edit Post" : "Create New Post"}</h5>
+              <Form onSubmit={handleSavePost}>
+                <Row>
+                  <Col md={8}>
+                    <Form.Group controlId="blogTitle">
+                      <Form.Label>Title</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={postForm.title}
+                        onChange={(e) => handleFieldChange("title", e.target.value)}
+                        placeholder="Post title"
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={4}>
+                    <Form.Group controlId="blogTag">
+                      <Form.Label>Tag</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={postForm.tag}
+                        onChange={(e) => handleFieldChange("tag", e.target.value)}
+                        placeholder="AI, Web, etc"
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+
+                <Form.Group controlId="blogExcerpt">
+                  <Form.Label>Excerpt</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={2}
+                    value={postForm.excerpt}
+                    onChange={(e) => handleFieldChange("excerpt", e.target.value)}
+                    placeholder="Short preview text"
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="blogContent">
+                  <Form.Label>Content</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={5}
+                    value={postForm.content}
+                    onChange={(e) => handleFieldChange("content", e.target.value)}
+                    placeholder="Write your post content"
+                  />
+                </Form.Group>
+
+                <div className="blog-editor-actions">
+                  <Button type="submit" variant="primary">
+                    {editingPostId ? "Update Post" : "Create Post"}
+                  </Button>
+                  {editingPostId ? (
+                    <Button type="button" variant="outline-light" onClick={resetForm}>
+                      Cancel Edit
+                    </Button>
+                  ) : null}
+                </div>
+                {formError ? <p className="blog-form-error">{formError}</p> : null}
+              </Form>
+            </Card.Body>
+          </Card>
+        ) : null}
 
         <Row style={{ justifyContent: "center", paddingBottom: "20px" }}>
           {posts.map((post) => (
@@ -100,14 +287,45 @@ function Blog() {
                   </Badge>
                   <Card.Title style={{ marginTop: "14px" }}>{post.title}</Card.Title>
                   <Card.Text style={{ textAlign: "left" }}>{post.excerpt}</Card.Text>
-                  <a
-                    className="blog-link"
-                    href={post.link}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Read more <BsArrowUpRight />
-                  </a>
+                  <Card.Text className="blog-content-preview">{post.content}</Card.Text>
+
+                  <div className="blog-meta-row">
+                    <span>Updated {formatDate(post.updatedAt)}</span>
+                    <span>{post.likes} likes</span>
+                  </div>
+
+                  <div className="blog-actions-row">
+                    <Button
+                      variant="outline-light"
+                      size="sm"
+                      onClick={() => handleToggleLike(post.id)}
+                    >
+                      {likedPostIds.includes(post.id) ? <BsHeartFill /> : <BsHeart />} Like
+                    </Button>
+
+                    {session.isOwner ? (
+                      <>
+                        <Button
+                          variant="outline-light"
+                          size="sm"
+                          onClick={() => startEdit(post)}
+                        >
+                          <BsPencilSquare /> Edit
+                        </Button>
+                        <Button
+                          variant="outline-danger"
+                          size="sm"
+                          onClick={() => handleDeletePost(post.id)}
+                        >
+                          <BsTrash /> Delete
+                        </Button>
+                      </>
+                    ) : (
+                      <a className="blog-link" href="#top">
+                        Read only <BsArrowUpRight />
+                      </a>
+                    )}
+                  </div>
                 </Card.Body>
               </Card>
             </Col>
