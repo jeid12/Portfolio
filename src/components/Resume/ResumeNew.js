@@ -13,6 +13,19 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 function ResumeNew() {
   const [width, setWidth] = useState(1200);
 
+  const pdfScale =
+    width >= 1400
+      ? 1.6
+      : width >= 1100
+      ? 1.35
+      : width >= 900
+      ? 1.1
+      : width >= 768
+      ? 0.95
+      : width >= 520
+      ? 0.75
+      : 0.58;
+
   useEffect(() => {
     setWidth(window.innerWidth);
   }, []);
@@ -112,7 +125,7 @@ function ResumeNew() {
             variant="primary"
             href={pdf}
             target="_blank"
-            style={{ maxWidth: "250px" }}
+            className="resume-download-btn"
           >
             <AiOutlineDownload />
             &nbsp;Download CV
@@ -121,7 +134,7 @@ function ResumeNew() {
 
         <Row className="resume">
           <Document file={pdf} className="d-flex justify-content-center">
-            <Page pageNumber={1} scale={width > 786 ? 1.7 : 0.6} />
+            <Page pageNumber={1} scale={pdfScale} />
           </Document>
         </Row>
 
@@ -130,7 +143,7 @@ function ResumeNew() {
             variant="primary"
             href={pdf}
             target="_blank"
-            style={{ maxWidth: "250px" }}
+            className="resume-download-btn"
           >
             <AiOutlineDownload />
             &nbsp;Download CV

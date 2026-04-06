@@ -182,7 +182,7 @@ function Projects() {
           )}
 
           {visibleProjects.map((project) => (
-            <Col md={4} className="project-card" key={project.id}>
+            <Col lg={4} md={6} sm={12} className="project-card" key={project.id}>
               <ProjectCard
                 imgPath={project.imgPath}
                 isBlog={false}

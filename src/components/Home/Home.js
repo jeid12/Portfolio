@@ -13,7 +13,7 @@ function Home() {
         <Container className="home-content">
           <Row>
             <Col md={7} className="home-header">
-              <h1 style={{ paddingBottom: 15 }} className="heading">
+              <h1 className="heading">
                 Hi There!{" "}
                 <span className="wave" role="img" aria-labelledby="wave">
                   👋🏻
@@ -27,12 +27,12 @@ function Home() {
 
               <div className="hero-ribbon">Building useful software, AI products, and delightful web experiences.</div>
 
-              <div style={{ padding: 50, textAlign: "left" }}>
+              <div className="typewriter-wrap">
                 <Type />
               </div>
             </Col>
 
-            <Col md={5} style={{ paddingBottom: 20 }}>
+            <Col md={5} className="hero-image-col">
               <div className="hero-visual-wrap">
                 <span className="hero-orb hero-orb-1"></span>
                 <span className="hero-orb hero-orb-2"></span>
@@ -40,7 +40,6 @@ function Home() {
                   src={homeLogo}
                   alt="NIYOKWIZERA profile"
                   className="img-fluid hero-main-image"
-                  style={{ maxHeight: "450px" }}
                 />
               </div>
             </Col>

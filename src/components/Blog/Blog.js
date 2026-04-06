@@ -219,7 +219,7 @@ function Blog() {
 
         <Row style={{ justifyContent: "center", paddingBottom: "20px" }}>
           {posts.map((post) => (
-            <Col md={4} className="blog-card" key={post.id}>
+            <Col lg={4} md={6} sm={12} className="blog-card" key={post.id}>
               <Card className="blog-card-view">
                 <Card.Body>
                   <Badge bg="dark" className="project-chip">

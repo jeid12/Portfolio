@@ -164,7 +164,7 @@ button:focus {
 
 .owner-auth-btn {
   margin-left: 18px;
-  margin-top: 8px;
+  margin-top: 0;
 }
 
 .navbar-nav .nav-link {
@@ -278,9 +278,19 @@ button:focus {
   text-align: left;
 }
 
+.typewriter-wrap {
+  padding: 50px;
+  text-align: left;
+}
+
+.hero-image-col {
+  padding-bottom: 20px;
+}
+
 .heading {
   font-size: 2.4em !important;
   padding-left: 50px !important;
+  padding-bottom: 15px;
 }
 
 .heading-name {
@@ -306,7 +316,8 @@ button:focus {
   .Typewriter__wrapper {
     font-size: 1.4em !important;
     font-weight: 500 !important;
-    position: absolute !important;
+    position: static !important;
+    line-height: 1.4;
   }
   .Typewriter__cursor {
     display: none !important;
@@ -676,6 +687,10 @@ button:focus {
 .hero-main-image {
   position: relative;
   z-index: 2;
+  max-height: 450px;
+  width: min(100%, 430px);
+  object-fit: cover;
+  border-radius: 18px;
 }
 
 .hero-orb {
@@ -912,6 +927,174 @@ button:focus {
 
 .resume-focus-list li {
   margin-bottom: 4px;
+}
+
+.resume-download-btn {
+  width: 100%;
+  max-width: 250px;
+}
+
+@media (max-width: 1199px) {
+  .home-content {
+    padding-top: 8rem !important;
+  }
+
+  .heading,
+  .heading-name {
+    padding-left: 22px !important;
+  }
+
+  .hero-ribbon {
+    margin-left: 24px;
+    max-width: 92%;
+  }
+
+  .typewriter-wrap {
+    padding: 30px 24px;
+  }
+
+  .navbar-nav .nav-item {
+    margin-left: 10px;
+  }
+
+  .owner-auth-btn {
+    margin-left: 10px;
+  }
+}
+
+@media (max-width: 991px) {
+  .navbar {
+    padding: 0.7rem 1.2rem !important;
+  }
+
+  .navbar-nav {
+    gap: 4px;
+    padding: 10px 0;
+  }
+
+  .navbar-nav .nav-item {
+    margin-left: 0;
+  }
+
+  .owner-auth-btn {
+    margin-left: 0;
+    margin-top: 8px;
+    width: 100%;
+  }
+
+  .home-content {
+    padding-top: 7.2rem !important;
+  }
+
+  .home-header {
+    padding-top: 30px !important;
+  }
+
+  .heading,
+  .heading-name {
+    padding-left: 0 !important;
+    text-align: center;
+  }
+
+  .heading {
+    font-size: 2rem !important;
+  }
+
+  .heading-name {
+    font-size: 2.05rem !important;
+  }
+
+  .hero-ribbon {
+    margin: 14px auto 0;
+  }
+
+  .typewriter-wrap {
+    padding: 26px 0 6px;
+    text-align: center;
+  }
+
+  .hero-image-col {
+    text-align: center;
+  }
+
+  .project-card,
+  .blog-card {
+    padding: 20px 14px !important;
+  }
+
+  .project-controls .btn {
+    margin-bottom: 8px;
+  }
+
+  .blog-auth-header {
+    flex-wrap: wrap;
+  }
+
+  .blog-meta-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .blog-editor-actions {
+    flex-wrap: wrap;
+  }
+
+  .tech-icons {
+    font-size: 3.25em !important;
+  }
+
+  .stack-badges {
+    gap: 8px;
+  }
+
+  .stack-badge {
+    font-size: 0.82rem;
+  }
+
+  .resume {
+    padding-top: 26px;
+    padding-bottom: 26px;
+  }
+}
+
+@media (max-width: 575px) {
+  .navbar {
+    padding: 0.9rem 1rem !important;
+  }
+
+  .home-content {
+    padding-top: 6.6rem !important;
+  }
+
+  .heading {
+    font-size: 1.72rem !important;
+  }
+
+  .heading-name {
+    font-size: 1.72rem !important;
+  }
+
+  .Typewriter__wrapper {
+    font-size: 1.18em !important;
+  }
+
+  .hero-main-image {
+    width: min(100%, 315px);
+    max-height: 360px;
+  }
+
+  .hero-orb {
+    display: none;
+  }
+
+  .project-heading {
+    font-size: 1.7em !important;
+  }
+
+  .resume-download-btn {
+    max-width: 210px;
+  }
 }
 
 .resume {
